@@ -1,16 +1,20 @@
 export const TimeDefs = `
-startTime:Int!
-endTime:Int!
-username:String!
-
+    type TimeDef{
+        startTime:Int!
+        endTime:Int!
+        username:String!
+    }
+    type TimeManage{
+        time:String
+    }
 `;
 export const mutationDefs = `
-createTimeManage(startTime:Int!,endTime:Int!,username:String!):TimeManage
+createTimeManage(startTime:Int!,endTime:Int!,username:String!):TimeDef!
+editTimeManage(startTime:Int!,endTime:Int!,username:String!):TimeDef!
+deleteTimeManage(startTime:Int!,endTime:Int!,username:String!):String!
 `;
 
 export const queryDefs = `
-allTimes:TimeDefs[]
-filterTimes(startTime:Int!,endTime:Int!):TimeDefs[]
-
-
+allTimes:[TimeDef]
+filterTimes(startTime:Int!,endTime:Int!):[TimeDef]
 `;
