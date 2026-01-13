@@ -12,6 +12,7 @@ mongoose
   .catch((err) => {
     console.error("MongoDB connection error", err);
   });
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,

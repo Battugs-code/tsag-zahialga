@@ -1,20 +1,20 @@
 export const TimeDefs = `
+    scalar Date
     type TimeDef{
-        startTime:Int!
-        endTime:Int!
+        startTime:Date!
+        endTime:Date!
         username:String!
     }
-    type TimeManage{
-        time:String
+    type ReturnTimeDef{
+        startTime:Date!
+        endTime:Date!
     }
 `;
 export const mutationDefs = `
 createTimeManage(startTime:Int!,endTime:Int!,username:String!):TimeDef!
-editTimeManage(startTime:Int!,endTime:Int!,username:String!):TimeDef!
-deleteTimeManage(startTime:Int!,endTime:Int!,username:String!):String!
 `;
 
 export const queryDefs = `
-allTimes:[TimeDef]
-filterTimes(startTime:Int!,endTime:Int!):[TimeDef]
+allTimes(username:String!):[ReturnTimeDef]
+filterTimes(startTime:Int!,endTime:Int!,username:String!):[ReturnTimeDef]
 `;

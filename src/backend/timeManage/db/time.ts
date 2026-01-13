@@ -1,13 +1,13 @@
 import mongoose, { model, Schema } from "mongoose";
-import { ITimeManageDocument } from "../types/time.ts";
+import { type ITimeManageDocument } from "../types/time.ts";
 
 const TimeManageSchema = new Schema({
-  startTime: { type: Number, required: true },
-  endTime: { type: Number, required: true },
+  startTime: { type: Date, required: true },
+  endTime: { type: Date, required: true },
   username: { type: String, required: true },
 });
 
 export const TimeManage = mongoose.model<ITimeManageDocument>(
-  "TimeManage",
+  "booked_times",
   TimeManageSchema
 );

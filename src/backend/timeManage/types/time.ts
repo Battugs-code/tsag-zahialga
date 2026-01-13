@@ -1,8 +1,8 @@
 import { Document } from "mongoose";
 
 interface ITimeManage {
-  startTime: number;
-  EndTime: number;
+  startTime: Date;
+  EndTime: Date;
   username: string;
 }
 export interface ITimeManageDocument extends ITimeManage, Document {}
