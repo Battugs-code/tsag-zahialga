@@ -3,7 +3,7 @@ import { type IUser } from "../types/user.ts";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
-import { type IContext } from "../../../index.ts";
+// import { type IContext } from "../../../index.ts";
 
 dotenv.config();
 
@@ -18,6 +18,7 @@ export const userMutations = {
     if (!data) {
       return "Hereglegch Burtgelgui";
     }
+    console.log(data);
     const pass = await bcrypt.compare(password, data.password);
     if (!pass) {
       return "email or password is wrong";
@@ -33,12 +34,33 @@ export const userMutations = {
       SECRET_KEY!,
       { expiresIn: "1h" }
     );
-    console.log(token);
+    console.log(data.username);
     return {
       message: "Amjilttai nevterlee",
       token,
     };
   },
 
-  signupUser: async (_root: any, { input }: { input: IUser }) => {},
+  signupUser: async (_root: any, { input }: { input: IUser }) => {
+    let { email, username, password, firstname, lastname } = input;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const check = await Users.find({
+      email: email,
+    });
+
+    if (!check) {
+      return "email is already signed up";
+    }
+
+    const user = await Users.insertOne({
+      username,
+      email,
+      password: hashedPassword,
+      firstname,
+      lastname,
+    });
+
+    return user.username;
+  },
 };
