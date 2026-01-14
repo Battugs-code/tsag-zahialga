@@ -2,7 +2,7 @@ import { Document } from "mongoose";
 
 interface ITimeManage {
   startTime: Date;
-  EndTime: Date;
+  endTime: Date;
   username: string;
 }
 export interface ITimeManageDocument extends ITimeManage, Document {}

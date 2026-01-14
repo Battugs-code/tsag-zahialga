@@ -15,6 +15,6 @@ createTimeManage(startTime:Int!,endTime:Int!,username:String!):TimeDef!
 `;
 
 export const queryDefs = `
-allTimes(username:String!):[ReturnTimeDef]
-filterTimes(startTime:Int!,endTime:Int!,username:String!):[ReturnTimeDef]
+allTimes:[TimeDef!]
+filterTimes(username:String!):[ReturnTimeDef!]
 `;
