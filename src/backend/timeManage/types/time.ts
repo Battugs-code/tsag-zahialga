@@ -1,13 +1,8 @@
 import { Document } from "mongoose";
 
 interface ITimeManage {
-<<<<<<< HEAD
   startTime: Date;
   endTime: Date;
-=======
-  startTime: number;
-  endTime: number;
->>>>>>> cbf4c7058a76f5bc167392738406eb7b6009c87e
   username: string;
   services: String;
 }

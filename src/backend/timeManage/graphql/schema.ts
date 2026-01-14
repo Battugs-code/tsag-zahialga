@@ -26,8 +26,6 @@ cancelTime(username:String!):TimeManage
 `;
 
 export const timeQueryDefs = `
-allTimes:[TimeManage]
-filterTimes(username:String!):[TimeManage]
-
-
+allTimes:[TimeManage!]
+filterTimes(username:String!,services:String!):[TimeManage]
 `;
