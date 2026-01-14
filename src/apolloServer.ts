@@ -1,21 +1,24 @@
 import {
   TimeDefs,
-  queryDefs,
-  mutationDefs,
+  timeMutationDefs,
+  timeQueryDefs,
 } from "./backend/timeManage/graphql/schema.ts";
-import { queries } from "./backend/timeManage/graphql/query.ts";
+import { TimeManageMutation } from "./backend/timeManage/graphql/mutation.ts";
+import { timeQueryResolvers } from "./backend/timeManage/graphql/query.ts";
 export const typeDefs = `
-    ${TimeDefs}
-
-    type Query{
-        ${queryDefs}
-    }
-    
-    type Mutation{
-        ${mutationDefs}
-    }
+${TimeDefs}
+type Query{
+${timeQueryDefs}
+}
+type Mutation{
+${timeMutationDefs}
+}
 `;
 export const resolvers = {
-  Query: { ...queries },
-  Mutation: {},
+  Query: {
+    ...timeQueryResolvers,
+  },
+  Mutation: {
+    ...TimeManageMutation,
+  },
 };

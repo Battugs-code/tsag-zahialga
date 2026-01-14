@@ -5,6 +5,7 @@ const TimeManageSchema = new Schema({
   startTime: { type: Date, required: true },
   endTime: { type: Date, required: true },
   username: { type: String, required: true },
+  services: { type: String, required: true },
 });
 
 export const TimeManage = mongoose.model<ITimeManageDocument>(
