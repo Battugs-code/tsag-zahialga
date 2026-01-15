@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { type ITimeManageDocument } from "../types/time.ts";
 
 const TimeManageSchema = new Schema({
@@ -9,6 +9,6 @@ const TimeManageSchema = new Schema({
 });
 
 export const TimeManage = mongoose.model<ITimeManageDocument>(
-  "booked_times",
+  "timemanages",
   TimeManageSchema
 );

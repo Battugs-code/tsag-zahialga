@@ -15,4 +15,15 @@ export const timeQueryResolvers = {
     );
     return times;
   },
+  availableTimes: async (_: any, args: { services: string; date: string }) => {
+    const startOfDay = new Date(`${args.date}T00:00:00.000Z`);
+    const endOfDay = new Date(startOfDay);
+    endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
+
+    return TimeManage.find({
+      services: args.services,
+      startTime: { $lt: endOfDay },
+      endTime: { $gte: startOfDay },
+    });
+  },
 };

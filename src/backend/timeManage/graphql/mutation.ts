@@ -8,6 +8,7 @@ export const TimeManageMutation = {
     context: any
   ) => {
     const { startTime, endTime, username, services } = input;
+
     const newTime = new TimeManage({
       startTime: new Date(startTime).getTime(),
       endTime: new Date(endTime).getTime(),
