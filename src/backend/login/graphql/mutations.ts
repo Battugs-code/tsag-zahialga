@@ -51,7 +51,7 @@ export const userMutations = {
     let { email, username, password, firstname, lastname } = input;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const check = await Users.find({
+    const check = await Users.findOne({
       email: email,
     });
 
@@ -67,6 +67,8 @@ export const userMutations = {
       lastname,
     });
 
-    return user.username;
+    return {
+      message: "Signup successful",
+    };
   },
 };

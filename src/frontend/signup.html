@@ -13,7 +13,7 @@
     <p id="message"></p>
 
     <script>
-      const endpoint = "http://localhost:4000/";
+      const endpoint = "http://localhost:6900/";
       const login = async () => {
         window.location.href = "./login.html";
       };
@@ -53,10 +53,10 @@
             }),
           });
           const result = await response.json();
-          if (!result.alldata.signupUser) {
-            message.textContent = `Signup succesful`;
+          if (result.data.signupUser) {
+            message.textContent = "Signup successful";
           } else {
-            message.textContent = `This email is already signed up`;
+            message.textContent = "This email is already signed up";
           }
         } catch (error) {
           console.error(error);
