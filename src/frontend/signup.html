@@ -9,7 +9,7 @@
     <input id="lastname" placeholder="lastname" required />
     <input id="email" placeholder="email" required />
     <input id="password" type="password" placeholder="password" required />
-    <button id="createBtn" onclick="login()">Create</button>
+    <button id="createBtn" >Create</button>
     <p id="message"></p>
 
     <script>
@@ -54,9 +54,12 @@
           });
           const result = await response.json();
           if (result.data.signupUser) {
-            message.textContent = "Signup successful";
+            message.textContent = "already signed up"
           } else {
-            message.textContent = "This email is already signed up";
+            message.textContent = "signup succesfully";
+            setTimeout(()=>{
+              window.location.href= "./login.html";
+            }, 1500)
           }
         } catch (error) {
           console.error(error);

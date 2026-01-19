@@ -1,6 +1,6 @@
 export const loginTypesDefs = `
 input loginInput {
-email: String, password: String
+email: String!, password: String!
 } 
 
 type auth{

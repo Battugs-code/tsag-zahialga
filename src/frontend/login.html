@@ -25,7 +25,7 @@
         const password = document.getElementById("password").value;
 
         const mutation = `
-        mutation loginUser($input: loginInput) {
+        mutation loginUser($input: loginInput!) {
           loginUser(input: $input) {
             token
             message

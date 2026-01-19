@@ -27,7 +27,10 @@ export const userMutations = {
     console.log(alldata);
     const pass = await bcrypt.compare(password, data.password);
     if (!pass) {
-      return "email or password is wrong";
+      return {
+        message: "email or password is wrong!",
+        token: null
+      }
     }
 
     const token = jwt.sign(
@@ -55,11 +58,11 @@ export const userMutations = {
       email: email,
     });
 
-    if (!check) {
+    if (check) {
       return "email is already signed up";
     }
 
-    const user = await Users.insertOne({
+    const user = await Users.create({
       username,
       email,
       password: hashedPassword,
