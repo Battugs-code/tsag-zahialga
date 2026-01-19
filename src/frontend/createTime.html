@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Time</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Create Time</h2>
+      <input
+        id="username"
+        type="text"
+        placeholder="Username"
+        aria-label="Username"
+      />
+      <input
+        id="startTime"
+        type="date"
+        placeholder="Start Time"
+        aria-label="Start Time"
+      />
+      <input
+        id="endTime"
+        type="date"
+        placeholder="End Time"
+        aria-label="End Time"
+      />
+      <input
+        id="services"
+        type="text"
+        placeholder="Services"
+        aria-label="Services"
+      />
+      <button id="signBtn">Sign Up</button>
+      <p id="message"></p>
+    </div>
+
+    <script>
+      const endpoint = "http://localhost:6900/";
+
+      const signBtn = document.getElementById("signBtn");
+      const message = document.getElementById("message");
+
+      signBtn.addEventListener("click", async () => {
+        const username = document.getElementById("username").value.trim();
+        const startTime = document.getElementById("startTime").value;
+        const endTime = document.getElementById("endTime").value;
+        const services = document.getElementById("services").value.trim();
+
+        if (!username || !startTime || !endTime || !services) {
+          message.textContent = "Please fill in all fields.";
+          message.style.color = "#dc3545";
+          return;
+        }
+
+        const mutation = `
+          mutation createTimeManage($input: TimeManageInput!) {
+            createTimeManage(input: $input)
+          }
+        `;
+
+        try {
+          message.textContent = "Submitting...";
+          message.style.color = "#666";
+
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              query: mutation,
+              variables: {
+                input: { username, startTime, endTime, services },
+              },
+            }),
+          });
+
+          const result = await response.json();
+          console.log(result);
+
+          if (result.errors) {
+            message.textContent = "Error: " + result.errors[0].message;
+            message.style.color = "#dc3545";
+          } else if (
+            result.data &&
+            result.data.createTimeManage === "success"
+          ) {
+            message.textContent = "Sign up successful! You can now login.";
+            message.style.color = "#28a745";
+
+            document.getElementById("username").value = "";
+            document.getElementById("startTime").value = "";
+            document.getElementById("endTime").value = "";
+            document.getElementById("services").value = "";
+          } else {
+            message.textContent =
+              result.data.createTimeManage || "Sign up failed!";
+            if (result.data.createTimeManage !== "success") {
+              message.style.color = "#dc3545";
+            }
+          }
+        } catch (error) {
+          console.error(error);
+          message.textContent = "Error connecting to server";
+          message.style.color = "#dc3545";
+        }
+      });
+    </script>
+  </body>
+</html>

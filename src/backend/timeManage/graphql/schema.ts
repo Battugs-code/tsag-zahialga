@@ -1,28 +1,27 @@
 export const TimeDefs = `
 scalar Date
-
 type TimeManage{
-startTime:Date!
-endTime:Date!
+startTime:String!
+endTime:String!
 username:String!
 services:String!
 }
 input TimeManageInput{
-startTime:Date!
-endTime:Date!
+startTime:String!
+endTime:String!
 username:String!
 services:String!
 }
 input updateTimeInput{
-startTime:Date
-endTime:Date
+startTime:String
+endTime:String
 services:String
 }
 `;
 export const timeMutationDefs = `
-createTimeManage(input:TimeManageInput):TimeManage
-updateTime(username:String!,input:updateTimeInput):TimeManage
-cancelTime(username:String!):TimeManage
+createTimeManage(input:TimeManageInput):String
+updateTime(username:String!,input:updateTimeInput!):String
+cancelTime(username:String!):String
 `;
 
 export const timeQueryDefs = `
