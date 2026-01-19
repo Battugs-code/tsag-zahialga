@@ -4,8 +4,6 @@ import {
   userMutationTypeDefs,
 } from "./backend/login/graphql/schema.ts";
 
-
-
 import { userMutations } from "./backend/login/graphql/mutations.ts";
 
 export const typeDefs = `
@@ -21,11 +19,11 @@ type Query{
 type Mutation {
   ${userMutationTypeDefs}
 
-}`
+}`;
 
 export const resolvers = {
   Mutation: {
     ...userMutations,
     // ...timeMutationDefs
-  }
-}
+  },
+};
