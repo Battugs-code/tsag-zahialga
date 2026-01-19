@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cancel Time</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>cancel time</h2>
+      <input
+        id="username"
+        type="text"
+        placeholder="Username"
+        aria-label="Username"
+      />
+      <button id="signBtn">Cancel Time</button>
+      <p id="message"></p>
+    </div>
+
+    <script>
+      const endpoint = "http://localhost:6900/";
+
+      const signBtn = document.getElementById("signBtn");
+      const message = document.getElementById("message");
+
+      signBtn.addEventListener("click", async () => {
+        const username = document.getElementById("username").value.trim();
+
+        if (!username) {
+          message.textContent = "Please fill in the username field.";
+          message.style.color = "#dc3545";
+          return;
+        }
+
+        const mutation = `
+          mutation Mutation($username: String!) {
+            cancelTime(username: $username)
+          }
+        `;
+
+        try {
+          message.textContent = "Processing...";
+          message.style.color = "#666";
+
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              query: mutation,
+              variables: {
+                username,
+              },
+            }),
+          });
+
+          const result = await response.json();
+          console.log(result);
+
+          if (result.errors) {
+            message.textContent = "Error: " + result.errors[0].message;
+            message.style.color = "#dc3545";
+          } else if (result.data && result.data.cancelTime === "success") {
+            message.textContent = "Time cancelled successfully!";
+            message.style.color = "#28a745";
+
+            document.getElementById("username").value = "";
+          } else {
+            message.textContent =
+              result.data.cancelTime || "Cancellation failed!";
+            if (result.data.cancelTime !== "success") {
+              message.style.color = "#dc3545";
+            }
+          }
+        } catch (error) {
+          console.error(error);
+          message.textContent = "Error connecting to server";
+          message.style.color = "#dc3545";
+        }
+      });
+    </script>
+  </body>
+</html>
