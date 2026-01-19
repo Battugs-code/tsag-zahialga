@@ -1,19 +1,19 @@
-<<<<<<< HEAD
-// export const TimeDefs = `
-// startTime:Int!
-// endTime:Int!
-// username:String!
 
-// `;
-// export const mutationDefs = `
-// createTimeManage(startTime:Int!,endTime:Int!,username:String!):TimeManage
-// `;
-
-// export const queryDefs = `
-// allTimes:TimeDefs[]
-// filterTimes(startTime:Int!,endTime:Int!):TimeDefs[]
-=======
 export const TimeDefs = `
+startTime:Int!
+endTime:Int!
+username:String!
+
+`;
+export const mutationDefs = `
+createTimeManage(startTime:Int!,endTime:Int!,username:String!):TimeManage
+`;
+
+export const queryDefs = `
+allTimes:TimeDefs[]
+filterTimes(startTime:Int!,endTime:Int!):TimeDefs[]
+
+export const TimeDefs = 
 scalar Date
 
 type TimeManage{
@@ -43,6 +43,6 @@ cancelTime(username:String!):TimeManage
 export const timeQueryDefs = `
 allTimes:[TimeManage]
 filterTimes(username:String!):[TimeManage]
->>>>>>> cbf4c7058a76f5bc167392738406eb7b6009c87e
 
-// `;
+
+ `;

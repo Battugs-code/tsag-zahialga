@@ -29,6 +29,4 @@ loginUser(input:loginInput) : auth
 signupUser(input:signupInput) : String
 `;
 
-// export const userQueryTypeDefs = `
 
-// `

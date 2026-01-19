@@ -12,13 +12,19 @@ const SECRET_KEY = process.env.JWT_SECRET;
 export const userMutations = {
   loginUser: async (_root: any, { input }: { input: IUser }) => {
     let { email, password } = input;
+    const alldata = await Users.find({});
     const data = await Users.findOne({
       email,
     });
     if (!data) {
-      return "Hereglegch Burtgelgui";
+      return {
+        message: "User not registered",
+        token: null,
+      };
     }
+
     console.log(data);
+    console.log(alldata);
     const pass = await bcrypt.compare(password, data.password);
     if (!pass) {
       return "email or password is wrong";
@@ -45,7 +51,7 @@ export const userMutations = {
     let { email, username, password, firstname, lastname } = input;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const check = await Users.find({
+    const check = await Users.findOne({
       email: email,
     });
 
@@ -61,6 +67,8 @@ export const userMutations = {
       lastname,
     });
 
-    return user.username;
+    return {
+      message: "Signup successful",
+    };
   },
 };
