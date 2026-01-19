@@ -3,6 +3,8 @@ import { type IUser } from "../types/user.ts";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
+import { tokenToString } from "typescript";
+import { Token } from "graphql";
 // import { type IContext } from "../../../index.ts";
 
 dotenv.config();
@@ -23,14 +25,14 @@ export const userMutations = {
       };
     }
 
-    console.log(data);
-    console.log(alldata);
+    // console.log(data);
+    // console.log(alldata);
     const pass = await bcrypt.compare(password, data.password);
     if (!pass) {
       return {
         message: "email or password is wrong!",
-        token: null
-      }
+        token: null,
+      };
     }
 
     const token = jwt.sign(
@@ -41,9 +43,10 @@ export const userMutations = {
         lastname: data.lastname,
       },
       SECRET_KEY!,
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
-    console.log(data.username);
+    // console.log(data.username);
+
     return {
       message: "Amjilttai nevterlee",
       token,
