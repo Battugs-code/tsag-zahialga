@@ -60,13 +60,13 @@
       })
       const data = await response.json();
       const times = data.data.availableTimes;
+      console.log(data)
       const timesModded = times.map(t=>({
         ...t,
         startTime:t.startTime.slice(11,16),
         endTime:t.endTime.slice(11,16),
       }));
       const spanElements = [];
-
       for(const time of timesModded) {
         const span = document.createElement('span')
         span.innerHTML = `${time.startTime} to ${time.endTime}`
@@ -76,10 +76,10 @@
         timesElement.appendChild(br);
       }
     }
-    const book = ()=>{
-      const startTime = `${date}T${startTimeValue}`
-      const endTime = `${date}T${endTimeValue}`
-      const response = fetch("http://localhost:6900/",{
+    const book = async()=>{
+      const startTime = new Date(`${date}T${startTimeValue}`)
+      const endTime = new Date(`${date}T${endTimeValue}`)
+      const response = await fetch("http://localhost:6900/",{
         method:"POST",
         headers:{
           "Content-Type":"application/json"
