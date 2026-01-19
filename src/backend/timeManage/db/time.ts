@@ -10,5 +10,5 @@ const TimeManageSchema = new Schema({
 
 export const TimeManage = mongoose.model<ITimeManageDocument>(
   "timemanages",
-  TimeManageSchema
+  TimeManageSchema,
 );

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Booking system login</title>
+  </head>
+
+  <body>
+    <input id="email" placeholder="email" />
+    <input id="password" placeholder="password" type="password" />
+    <button id="loginBtn">Login</button>
+    <button id="createBtn" onclick="signup()">Create User</button>
+
+    <p id="message"></p>
+
+    <script>
+      const endpoint = "http://localhost:6900/";
+
+      const loginBtn = document.getElementById("loginBtn");
+      const message = document.getElementById("message");
+      const signup = async () => {
+        window.location.href = "./signup.html";
+      };
+      loginBtn.addEventListener("click", async () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const mutation = `
+        mutation loginUser($input: loginInput!) {
+          loginUser(input: $input) {
+            token
+            message
+           }
+          }
+        `;
+
+        try {
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              query: mutation,
+              variables: {
+                input: {
+                  email: email,
+                  password: password,
+                },
+              },
+            }),
+          });
+
+          const result = await response.json();
+
+          if (result.data && result.data.loginUser) {
+            const user = result.data.loginUser;
+            message.textContent = result.data.loginUser.message;
+            localStorage.setItem("token", result.data.loginUser.token);
+          } else {
+            message.textContent = `Failed to login user! Check token or input values.`;
+          }
+        } catch (error) {
+          console.error(error);
+          message.textContent = "Error connectin to server";
+        }
+      });
+    </script>
+  </body>
+</html>

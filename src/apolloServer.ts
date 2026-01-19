@@ -1,22 +1,29 @@
 import {
-  TimeDefs,
-  timeMutationDefs,
-  timeQueryDefs,
-} from "./backend/timeManage/graphql/schema.ts";
-import { TimeManageMutation } from "./backend/timeManage/graphql/mutation.ts";
+  loginTypesDefs,
+  signupTypesDefs,
+  userMutationTypeDefs,
+} from "./backend/login/graphql/schema.ts";
+
+import { userMutations } from "./backend/login/graphql/mutations.ts";
 
 export const typeDefs = `
-${TimeDefs}
+${loginTypesDefs}
+${signupTypesDefs}
+
+
+
 type Query{
-${timeQueryDefs}
+  _empty: String
 }
-type Mutation{
-${timeMutationDefs}
-}
-`;
+
+type Mutation {
+  ${userMutationTypeDefs}
+
+}`;
+
 export const resolvers = {
-  Query: {},
   Mutation: {
-    ...TimeManageMutation,
+    ...userMutations,
+    // ...timeMutationDefs
   },
 };

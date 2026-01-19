@@ -1,7 +1,8 @@
+
 import mongoose from "mongoose";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { ApolloServer } from "@apollo/server";
-import { typeDefs, resolvers } from "./apolloServer.ts";
+import { typeDefs, resolvers } from "./apolloServer.ts"
 mongoose
   .connect(
     "mongodb+srv://Achka1121:QrPqkWmvZrs2v835@backend-lesson.zrskizs.mongodb.net/Booking_system?appName=backend-lesson"
