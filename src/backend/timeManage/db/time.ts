@@ -1,5 +1,5 @@
-import mongoose, { model, Schema } from "mongoose";
-import { ITimeManageDocument } from "../types/time.ts";
+import mongoose, { Schema } from "mongoose";
+import { type ITimeManageDocument } from "../types/time.ts";
 
 const TimeManageSchema = new Schema({
   startTime: { type: String, required: true },

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Booking System</title>
+  </head>
+  <body>
+    <h1>Booking System</h1>
+      <div>
+      <select id="select">
+        <option value="">Select service</option>
+        <option value="a">a</option>
+        <option value="wash">Wash</option>
+        <option value="color">Color</option>
+      </select>
+      </div>
+      <div>
+        <br>
+        <input type="date" id="date">
+      </div>
+        <p>Start time:</p>
+        <input type="time" id="startTime">
+        <p>End time:</p>
+        <input type="time" id="endTime">
+      <div>
+        <br>
+        <button onclick="check()">Check day</button>
+      </div>
+      <button onclick="book()">
+        Book
+      </button><br>
+    </form>
+    <p id="times">Booked times: <br></p>
+  </body>
+  <script>
+
+    
+    const date = document.getElementById("date");
+    const select = document.getElementById("select");
+    console.log(select,'asdasd')
+    const startTimeA = document.getElementById("startTime");
+    const endTimeA = document.getElementById("endTime");
+    const timesElement = document.getElementById("times");
+    const check = async()=>{
+      timesElement.innerHTML="Booked times: <br>";
+      const response = await fetch("http://localhost:6900/",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          query:`query AvailableTimes($services: String!, $date: String!) {
+  availableTimes(services: $services, date: $date) {
+    startTime
+    endTime
+  }
+}`,
+          variables:{
+            date: date.value,
+            services:select.value
+          }
+        })
+      })
+      const data = await response.json();
+      const times = data.data.availableTimes;
+         console.log(select.value)
+      const timesModded = times.map(t=>({
+        ...t,
+        startTime:t.startTime.slice(11,16),
+        endTime:t.endTime.slice(11,16),
+      }));
+      const spanElements = [];
+      for(const time of timesModded) {
+        const span = document.createElement('span')
+        span.innerHTML = `${time.startTime} to ${time.endTime}`
+        spanElements.push(span)
+        timesElement.appendChild(span)
+        const br = document.createElement('br');
+        timesElement.appendChild(br);
+      }
+    }
+    const book = async()=>{
+      const startTime = (`${date.value}T${startTimeA.value}:00`)
+      const endTime = (`${date.value}T${endTimeA.value}:00`)
+      const response = await fetch("http://localhost:6900/",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          query:`mutation CreateTimeManage($input: TimeManageInput) {
+  createTimeManage(input: $input) {
+    startTime
+    endTime
+    username
+    services
+  }
+}`,
+          variables:{
+            input:{
+              startTime,
+              endTime,
+              username:"1",
+              services:select.value
+            }
+          }
+        })
+      })
+      console.log(date.value,"T",startTimeA.value)
+    }
+  </script>
+</html>
