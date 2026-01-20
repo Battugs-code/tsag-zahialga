@@ -8,10 +8,13 @@ export const TimeManageMutation = {
     context: any,
   ) => {
     const { startTime, endTime, username, services } = input;
-    console.log(input, "aaa");
+    const checkUsername = await TimeManage.findOne({ username });
+    if (checkUsername) {
+      return "Username already exists";
+    }
     const newTime = new TimeManage({
-      startTime: new Date(startTime).getTime(),
-      endTime: new Date(endTime).getTime(),
+      startTime: startTime,
+      endTime: endTime,
       username,
       services,
     });
@@ -19,6 +22,8 @@ export const TimeManageMutation = {
     console.log(data, "data");
 
     return data;
+    await newTime.save();
+    return "success";
   },
   updateTime: async (
     _root: any,
@@ -33,17 +38,19 @@ export const TimeManageMutation = {
       updateData.endTime = new Date(input.endTime).getTime();
     }
 
-    return await TimeManage.findOneAndUpdate(
+    await TimeManage.findOneAndUpdate(
       { username },
       { $set: updateData },
       { new: true },
     );
+    return "success";
   },
   cancelTime: async (
     _root: any,
     { username }: { username: string },
     context: any,
   ) => {
-    return await TimeManage.findOneAndDelete({ username });
+    await TimeManage.findOneAndDelete({ username });
+    return "success";
   },
 };
