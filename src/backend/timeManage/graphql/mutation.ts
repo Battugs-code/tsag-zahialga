@@ -5,22 +5,25 @@ export const TimeManageMutation = {
   createTimeManage: async (
     _root: any,
     { input }: { input: ITimeManageInput },
-    context: any
+    context: any,
   ) => {
     const { startTime, endTime, username, services } = input;
-
+    console.log(input, "aaa");
     const newTime = new TimeManage({
       startTime: new Date(startTime).getTime(),
       endTime: new Date(endTime).getTime(),
       username,
       services,
     });
-    return await newTime.save();
+    const data = await newTime.save();
+    console.log(data, "data");
+
+    return data;
   },
   updateTime: async (
     _root: any,
     { username, input }: { username: string; input: Partial<ITimeManageInput> },
-    context: any
+    context: any,
   ) => {
     const updateData: any = { ...input };
     if (input.startTime) {
@@ -33,13 +36,13 @@ export const TimeManageMutation = {
     return await TimeManage.findOneAndUpdate(
       { username },
       { $set: updateData },
-      { new: true }
+      { new: true },
     );
   },
   cancelTime: async (
     _root: any,
     { username }: { username: string },
-    context: any
+    context: any,
   ) => {
     return await TimeManage.findOneAndDelete({ username });
   },

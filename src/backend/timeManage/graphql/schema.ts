@@ -22,7 +22,6 @@ export const timeMutationDefs = `
 createTimeManage(input:TimeManageInput):TimeManage
 updateTime(username:String!,input:updateTimeInput):TimeManage
 cancelTime(username:String!):TimeManage
-test:String
 `;
 
 export const timeQueryDefs = `

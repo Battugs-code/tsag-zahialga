@@ -28,15 +28,18 @@
       </div>
       <button onclick="book()">
         Book
-      </button>
+      </button><br>
     </form>
     <p id="times">Booked times: <br></p>
   </body>
   <script>
-    const date = document.getElementById("date").value;
-    const select = document.getElementById("select").value;
-    const startTimeValue = document.getElementById("startTime").value;
-    const endTimeValue = document.getElementById("endTime").value;
+
+    
+    const date = document.getElementById("date");
+    const select = document.getElementById("select");
+    console.log(select,'asdasd')
+    const startTimeA = document.getElementById("startTime");
+    const endTimeA = document.getElementById("endTime");
     const timesElement = document.getElementById("times");
     const check = async()=>{
       timesElement.innerHTML="Booked times: <br>";
@@ -48,19 +51,19 @@
         body:JSON.stringify({
           query:`query AvailableTimes($services: String!, $date: String!) {
   availableTimes(services: $services, date: $date) {
-    endTime
     startTime
+    endTime
   }
 }`,
           variables:{
-            date,
-            services:select
+            date: date.value,
+            services:select.value
           }
         })
       })
       const data = await response.json();
       const times = data.data.availableTimes;
-      console.log(data)
+         console.log(select.value)
       const timesModded = times.map(t=>({
         ...t,
         startTime:t.startTime.slice(11,16),
@@ -77,32 +80,33 @@
       }
     }
     const book = async()=>{
-      const startTime = new Date(`${date}T${startTimeValue}`)
-      const endTime = new Date(`${date}T${endTimeValue}`)
+      const startTime = (`${date.value}T${startTimeA.value}:00`)
+      const endTime = (`${date.value}T${endTimeA.value}:00`)
       const response = await fetch("http://localhost:6900/",{
         method:"POST",
         headers:{
           "Content-Type":"application/json"
         },
         body:JSON.stringify({
-          query:`mutation Mutation($input: TimeManageInput) {
+          query:`mutation CreateTimeManage($input: TimeManageInput) {
   createTimeManage(input: $input) {
-    endTime
-    services
     startTime
+    endTime
     username
+    services
   }
 }`,
           variables:{
             input:{
               startTime,
               endTime,
-              username,
-              services:select
+              username:"1",
+              services:select.value
             }
           }
         })
       })
+      console.log(date.value,"T",startTimeA.value)
     }
   </script>
 </html>

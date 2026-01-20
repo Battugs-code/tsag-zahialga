@@ -11,7 +11,7 @@ export const timeQueryResolvers = {
         username: args.username,
         services: args.services,
       },
-      { startTime: 1, endTime: 1, _id: 0, services: 1, username: 1 }
+      { startTime: 1, endTime: 1, _id: 0, services: 1, username: 1 },
     );
     return times;
   },
