@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <h1>Your Booked Times</h1>
+  </head>
+  <body>
+    <p id="times">Booked times: <br /></p>
+    <script>
+      const allTimes = async () => {
+        const timesElement = document.getElementById("times");
+        const response = await fetch("http://localhost:6900/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: `
+                query FilterTimes($username: String!) {
+        filterTimes(username: $username) {
+          startTime
+          endTime
+          username
+          services
+        }
+      }
+              `,
+            variables: { username: "" },
+          }),
+        });
+        const result = await response.json();
+        const times = result.data.filterTimes;
+        console.log(times);
+        const timesModded = times.map((t) => ({
+          ...t,
+          startTime: t.startTime.slice(4, 21),
+          endTime: t.endTime.slice(4, 21),
+        }));
+        const spanElements = [];
+        for (const time of timesModded) {
+          const span = document.createElement("span");
+          span.innerHTML = `${time.startTime} to ${time.endTime} service:${time.services}`;
+          spanElements.push(span);
+          timesElement.appendChild(span);
+          const br = document.createElement("br");
+          timesElement.appendChild(br);
+        }
+      };
+
+      allTimes();
+    </script>
+  </body>
+</html>
