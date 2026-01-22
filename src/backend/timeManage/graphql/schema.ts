@@ -27,5 +27,5 @@ cancelTime(username:String!):String
 export const timeQueryDefs = `
 availableTimes(services:String!,date:String!):[TimeManage!]
 allTimes:[TimeManage!]
-filterTimes(username:String!,services:String!):[TimeManage]
+filterTimes(username:String!):[TimeManage]
 `;
