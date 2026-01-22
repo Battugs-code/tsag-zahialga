@@ -19,11 +19,10 @@ export const TimeManageMutation = {
       services,
     });
     const data = await newTime.save();
-    console.log(data, "data");
+
 
     return data;
-    await newTime.save();
-    return "success";
+
   },
   updateTime: async (
     _root: any,

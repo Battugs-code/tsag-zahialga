@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>Booking system login</title>
@@ -8,7 +8,7 @@
     <input id="email" placeholder="email" />
     <input id="password" placeholder="password" type="password" />
     <button id="loginBtn">Login</button>
-    <button id="createBtn" onclick="signup()">Create User</button>
+    <p><a href="signup.html">signup</a></p>
 
     <p id="message"></p>
 
@@ -17,9 +17,7 @@
 
       const loginBtn = document.getElementById("loginBtn");
       const message = document.getElementById("message");
-      const signup = async () => {
-        window.location.href = "./signup.html";
-      };
+
       loginBtn.addEventListener("click", async () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
@@ -56,6 +54,7 @@
             const user = result.data.loginUser;
             message.textContent = result.data.loginUser.message;
             localStorage.setItem("token", result.data.loginUser.token);
+            window.location.href = "./allThings.html";
           } else {
             message.textContent = `Failed to login user! Check token or input values.`;
           }

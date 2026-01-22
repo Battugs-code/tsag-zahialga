@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>Booking system signup</title>
@@ -9,9 +9,9 @@
     <input id="lastname" placeholder="lastname" required />
     <input id="email" placeholder="email" required />
     <input id="password" type="password" placeholder="password" required />
-    <button id="createBtn" >Create</button>
+    <button id="createBtn">Create</button>
     <p id="message"></p>
-
+    <p><a href="login.html">login</a></p>
     <script>
       const endpoint = "http://localhost:6900/";
       const login = async () => {
@@ -54,12 +54,12 @@
           });
           const result = await response.json();
           if (result.data.signupUser) {
-            message.textContent = "already signed up"
+            message.textContent = "already signed up";
           } else {
             message.textContent = "signup succesfully";
-            setTimeout(()=>{
-              window.location.href= "./login.html";
-            }, 1500)
+            setTimeout(() => {
+              window.location.href = "./login.html";
+            }, 1500);
           }
         } catch (error) {
           console.error(error);

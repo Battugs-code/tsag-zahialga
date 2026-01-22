@@ -17,7 +17,7 @@
       <button id="signBtn">Cancel Time</button>
       <p id="message"></p>
     </div>
-
+    <a href="allThings.html">back to main</a>
     <script>
       const endpoint = "http://localhost:6900/";
 
@@ -25,6 +25,15 @@
       const message = document.getElementById("message");
 
       signBtn.addEventListener("click", async () => {
+        const token = localStorage.getItem("token");
+        console.log(token, "token");
+
+        if (!token) {
+          message.textContent = "No token found! Please login first.";
+          message.style.color = "#dc3545";
+          return;
+        }
+
         const username = document.getElementById("username").value.trim();
 
         if (!username) {
@@ -47,6 +56,7 @@
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               query: mutation,
