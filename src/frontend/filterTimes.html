@@ -7,11 +7,20 @@
     <p id="times">Booked times: <br /></p>
     <script>
       const allTimes = async () => {
+        const token = localStorage.getItem("token");
+        console.log(token, "token");
+
+        if (!token) {
+          message.textContent = "No token found! Please login first.";
+          message.style.color = "#dc3545";
+          return;
+        }
         const timesElement = document.getElementById("times");
         const response = await fetch("http://localhost:6900/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             query: `
