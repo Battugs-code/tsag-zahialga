@@ -9,7 +9,7 @@ interface ITimeManage {
 export interface ITimeManageInput {
   startTime: Date;
   endTime: Date;
-  username: String;
-  services: String;
+  username: string;
+  services: string;
 }
 export interface ITimeManageDocument extends ITimeManage, Document {}

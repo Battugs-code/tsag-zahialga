@@ -5,51 +5,40 @@ export const TimeManageMutation = {
   createTimeManage: async (
     _root: any,
     { input }: { input: ITimeManageInput },
-    context: any,
   ) => {
-    const { startTime, endTime, username, services } = input;
-    const checkUsername = await TimeManage.findOne({ username });
-    if (checkUsername) {
-      return "Username already exists";
+    const existingUser = await TimeManage.findOne({ username: input.username });
+    if (existingUser) {
+      throw new Error("Username already exists");
     }
-    const newTime = new TimeManage({
-      startTime: startTime,
-      endTime: endTime,
-      username,
-      services,
-    });
-    const data = await newTime.save();
 
+    const newTime = await TimeManage.create(input);
 
-    return data;
-
+    return newTime;
   },
+
   updateTime: async (
     _root: any,
     { username, input }: { username: string; input: Partial<ITimeManageInput> },
-    context: any,
   ) => {
-    const updateData: any = { ...input };
-    if (input.startTime) {
-      updateData.startTime = new Date(input.startTime).getTime();
-    }
-    if (input.endTime) {
-      updateData.endTime = new Date(input.endTime).getTime();
+    const updated = await TimeManage.findOneAndUpdate(
+      { username },
+      { $set: input },
+    );
+
+    if (!updated) {
+      throw new Error("User not found");
     }
 
-    await TimeManage.findOneAndUpdate(
-      { username },
-      { $set: updateData },
-      { new: true },
-    );
-    return "success";
+    return updated;
   },
-  cancelTime: async (
-    _root: any,
-    { username }: { username: string },
-    context: any,
-  ) => {
-    await TimeManage.findOneAndDelete({ username });
+
+  cancelTime: async (_root: any, { username }: { username: string }) => {
+    const deleted = await TimeManage.findOneAndDelete({ username });
+
+    if (!deleted) {
+      throw new Error("User not found");
+    }
+
     return "success";
   },
 };
